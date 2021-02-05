@@ -1,39 +1,37 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
-  <p v-for="i in texts" :key="i">{{i}}</p>
+  <img alt="Vue logo" src="./assets/logo.png" />
+  <HelloWorld msg="Welcome to Your Vue.js App" />
+  <p v-for="i in texts" :key="i">{{ i }}</p>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-function getTexts(){
-  return new Promise(reslove=>{
-    setTimeout(()=>{
-      reslove(['t1','t2','t3']);
-    },2000);
-  })
+import HelloWorld from "./components/HelloWorld.vue";
+function getTexts() {
+  return new Promise((reslove) => {
+    setTimeout(() => {
+      reslove(["t1", "t2", "t3"]);
+    }, 2000);
+  });
 }
 export default {
-  name: 'App',
-  data(){
+  name: "App",
+  data() {
     return {
-      texts:[],
-    }
+      texts: [],
+    };
   },
   async created() {
     //组件示例已创建未挂载dom不存在
-    await getTexts();
+    this.texts = await getTexts();
   },
-  mounted(){
+  mounted() {
     // 已挂载dom存在
   },
   components: {
-    HelloWorld
+    HelloWorld,
   },
-  watch:{
-
-  }
-}
+  watch: {},
+};
 </script>
 
 <style>
