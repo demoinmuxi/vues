@@ -3,6 +3,8 @@ import App from './App.vue'
 import renderHeader from './components/RenderVue'
 import functionalVue from './components/functionalVue'
 import myPlugin from './components/pluginVue'
+import router from './router'
+import store from './store'
 Vue.config.productionTip = false
 Vue.directive('focus',{
   inserted(el){
@@ -25,5 +27,7 @@ Vue.component('renderHeader',renderHeader);
 Vue.component('functionalVue',functionalVue);
 Vue.addedplugin();
 new Vue({
-  render: h => h(App),
+  router,
+  store,
+  render: h => h(App)
 }).$mount('#app')
