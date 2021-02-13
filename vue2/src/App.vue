@@ -5,6 +5,10 @@
       <router-link :to="{name:'about',params:{id:'hi'},query:{j:1,s:2}}">About</router-link>
     </div>
     <router-view/>
+    <p>{{$store.state.counter}}</p>
+    <button @click="()=> $store.commit('add')">+</button>
+    <button @click="()=> $store.dispatch('add')">async+</button>
+
   </div>
 </template>
 

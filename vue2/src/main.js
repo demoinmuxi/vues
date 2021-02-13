@@ -5,6 +5,13 @@ import functionalVue from './components/functionalVue'
 import myPlugin from './components/pluginVue'
 import router from './router'
 import store from './store'
+class t{
+  constructor(e){
+    console.log(e);
+  }
+}
+console.log(t,new t("classt"),'class');
+console.log( new Vue(),'vue is ');
 Vue.config.productionTip = false
 Vue.directive('focus',{
   inserted(el){
