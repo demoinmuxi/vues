@@ -10,13 +10,14 @@
     <div id="app"></div>
 </body>
 <script src="./easyExample.js"></script>
+<!-- <script src="./proxyAct.js"></script> -->
 <script>
-    const obj={}
-    defineReactive(obj,'foo','foo',function(){
-        app.innerText=obj.foo
-    });
-    setInterval(() => {
-        obj.foo=new Date().toLocaleTimeString();
-    }, 1000);
+    // const obj={}
+    // defineReactive(obj,'foo','foo',function(){
+    //     app.innerText=obj.foo
+    // });
+    // setInterval(() => {
+    //     obj.foo=new Date().toLocaleTimeString();
+    // }, 1000);
 </script>
 </html>
