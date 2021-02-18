@@ -7,11 +7,35 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="app"></div>
+    <div id="app">
+        <div>
+            3
+            <li v-do="fu">{{a.e[0]}}</li>
+            <li>{{a}}</li>
+            <li>{{k[0]}}</li>
+        </div>
+    </div>
 </body>
-<script src="./easyExample.js"></script>
+<!-- <script src="./easyExample.js"></script> -->
 <!-- <script src="./proxyAct.js"></script> -->
+<script src="./tinyV.js"></script>
 <script>
+    const t=new V({
+        el:'#app',
+        data() {
+            return {
+                a:{e:[2,3]},
+                j:{w:'ww'},
+                k:[7,9],
+            }
+        },
+        methods: {
+            fu(){
+                console.log("fu");
+            }
+        },
+    });
+
     // const obj={}
     // defineReactive(obj,'foo','foo',function(){
     //     app.innerText=obj.foo

@@ -1,7 +1,9 @@
 const obj = {}
 //数据响应式
-function defineReactive(obj, key, val, origin,setfn) {
-    observe(val, obj, key,origin);
+function defineReactive(obj, key, val,setfn) {
+    if (observe(val, obj, key)) {
+        return   
+    }
     Object.defineProperty(obj, key, {
         get() {
             console.log("get", `${key}:${val}`);
@@ -16,20 +18,18 @@ function defineReactive(obj, key, val, origin,setfn) {
         },
     });
 }
-defineReactive(obj, 'foo', { t: 'foo', tt: { t: 'foo', y: [333, 'ii', { t: 3, u: [3, 44] }] } },obj);
-console.log(obj);
-console.log(obj.foo.tt.y[2].u[1], 'try');
 //递归遍历需要响应的对象
-function observe(val, obj, key,origin) {
+function observe(val, obj, key) {
     if (typeof val !== 'object' || val == null) {
         return
     }
     if (val instanceof Array) {
-        origin[obj][key] = proxyify(val);
+        obj[key] = proxyify(val);
+        return true
         //to do 利用地址修改 使得proxy代理数组
     } else if (val instanceof Object) {
         Object.keys(val).forEach(key => {
-            defineReactive(val, key, val[key],origin);
+            defineReactive(val, key, val[key]);
         });
     }
 }
@@ -47,7 +47,7 @@ function proxyify(obj) {
     );
     return new Proxy(obj, {
         get(target, name, value) {
-            console.log(target, name, value);
+            console.log('get--',target, name, value);
             return Reflect.get(target, name);
         },
         set(target, name, value, receiver) {
@@ -58,23 +58,3 @@ function proxyify(obj) {
         }
     });
 }
-// console.log(Object.keys(new Proxy([6,8],{set(){},get(){}})),Object.keys(new Proxy({w:2},{set(){},get(){}})),new Proxy({w:2},{set(){},get(){}}),typeof obj,Proxy);
-// const arr = new Proxy([], {
-//     get(target, name, value) {
-//         console.log(target, name, value);
-//         return Reflect.get(target, name);
-//     }, set(target, name, value, receiver) {
-//         console.log("set");
-//         console.log(target, name, value, receiver);
-//         console.log('---');
-//         Reflect.set(target, name, value, receiver);
-//     }
-// });
-
-// arr[0] = 100;
-// arr[1] = 222;
-// let a = arr[1];
-// arr[2] = { r: 33, t: { e: 4 } };
-// arr[2].r = 10;
-// console.log(arr);
-// console.log(arr[2]);
