@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,9 +10,13 @@
     <div id="app">
         <div>
             3
-            <li v-do="fu">{{a.e[0]}}</li>
-            <li>{{a}}</li>
-            <li>{{k[0]}}</li>
+            <li 
+            >{{j.l}}</li>
+            <li 
+            >{{j.w}}</li>
+            <!-- <li 
+            
+            >{{t.u}}</li> -->
         </div>
     </div>
 </body>
@@ -25,9 +28,10 @@
         el:'#app',
         data() {
             return {
-                a:{e:[2,3]},
-                j:{w:'ww'},
-                k:[7,9],
+                // a:{e:[2,3]},
+                j:{w:23,l:8},
+                t:{u:9}
+                // k:[7,9],
             }
         },
         methods: {
@@ -36,7 +40,15 @@
             }
         },
     });
-
+class j{
+    constructor(){
+        console.log(this,'cc',this.constructor.u);
+    }
+};
+j.u='33';
+j.prototype={i:0}
+let ii=new j();
+console.log(j,j.u,ii.__proto__.constructor.u);
     // const obj={}
     // defineReactive(obj,'foo','foo',function(){
     //     app.innerText=obj.foo
@@ -45,28 +57,4 @@
     //     obj.foo=new Date().toLocaleTimeString();
     // }, 1000);
 </script>
-=======
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div id="app"></div>
-</body>
-<script src="./easyExample.js"></script>
-<!-- <script src="./proxyAct.js"></script> -->
-<script>
-    // const obj={}
-    // defineReactive(obj,'foo','foo',function(){
-    //     app.innerText=obj.foo
-    // });
-    // setInterval(() => {
-    //     obj.foo=new Date().toLocaleTimeString();
-    // }, 1000);
-</script>
->>>>>>> 3d89db84400f21089c4f1e4407ba9ce121438503
 </html>

@@ -1,3 +1,4 @@
+window.ddep=[];
 class V {
     constructor(obj) {
         this.$el = obj.el;
@@ -27,11 +28,20 @@ class V {
         // console.log(this);
     }
     compileText(node){
+        this.update(node,RegExp.$1,'textUpdate');
+        // window.temp=this;
+        // window.innerText=RegExp.$1;
+        // eval('window.text=temp.'+innerText+';window.tr=0;');
+        // console.log(window.text,window.innerText,tr,'----');
+        // node.textContent=window.text;
+    }
+    textUpdate(node,key){
         window.temp=this;
-        window.innerText=RegExp.$1;
+        window.innerText=key;
         eval('window.text=temp.'+innerText+';window.tr=0;');
         console.log(window.text,window.innerText,tr,'----');
         node.textContent=window.text;
+        console.log('000000');
     }
     isElement(node){
         return node.nodeType===1;
@@ -50,10 +60,13 @@ class V {
     isDirective(attr){
         return attr.indexOf('v-')===0;
     }
-    do(node,exp){
-        // setInterval(() => {
-        //     // this.$data.a.e=1;
-        // }, 1000);
+    do(node,val){
+        //指定v-do
+        // node.textContent=val;
+        setInterval(() => {
+            // this.$data.a.e=1;
+            this.$data.j.w++;
+        }, 1000);
     }
     isInterpolation(node){
         return node.nodeType===3&& /\{\{(.*)\}\}/.test(node.textContent);
@@ -85,16 +98,27 @@ class V {
             });
         }
     }
-    update(){
-        console.log('update');
+    update(node,key,updater){
+        const fn=this[updater];
+        fn&&fn.call(this,node,key);
+        let that=this;
+        //初始化
+        console.log('textUpdate');
+        new Watcher(that,key,function() {
+            fn&&fn.call(that,node,key);
+        });
         // this.compile(document.querySelector(this.$el));
     }
     defineReactive(obj, key, val, setfn) {
         if (this.observe(val, obj, key)) {
             return
         }
+        // let that=this;
+        const dep=new Dep();
+        window.ddep.push(dep);
         Object.defineProperty(obj, key, {
             get() {
+                Dep.target&&dep.add(Dep.target);
                 console.log("get", `${key}:${val}`);
                 return val
             },
@@ -103,7 +127,9 @@ class V {
                     console.log(`set ${key}->${newval}`);
                     val = newval;
                     setfn && setfn();
-                    this.update();
+                    // that.update();
+                    dep.notify();
+                    // watchers[0].update();
                 }
             },
         });
@@ -153,5 +179,37 @@ class V {
                 return true;
             }
         });
+    }
+}
+const watchers=[];
+class Watcher{
+    constructor(vm,key,updateFn){
+        this.vm=vm;
+        //vue实例
+        this.key=key;
+        //依赖key
+        this.updateFn=updateFn;
+        Dep.target=this;
+        // this.vm[this.key];key可以有.
+        window.temp=this.vm;
+        window.innerText=this.key;
+        eval('temp.'+innerText);
+        Dep.target=null;
+        watchers.push(this);
+        //dep收集
+    }
+    update() {
+        this.updateFn();   
+    }
+}
+class Dep{
+    constructor(){
+        this.deps=[];
+    }
+    add(dep){
+        this.deps.push(dep);
+    }
+    notify(){
+        this.deps.forEach(dep=>dep.update());
     }
 }
